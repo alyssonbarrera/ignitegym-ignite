@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { HStack, VStack, FlatList, Heading, Text } from 'native-base';
 
 import { Group } from '@components/Group';
 import { HomeHeader } from '@components/HomeHeader';
 import { ExerciseCard } from '@components/ExerciseCard';
+
+import { AppNavigatorRoutesProps } from '@routes/app.routes';
 
 import Image1 from '../assets/image-1.png';
 import Image2 from '../assets/image-2.png';
@@ -37,6 +40,13 @@ export function Home() {
             image: Image4,
         }
     ];
+
+
+    const navigation = useNavigation<AppNavigatorRoutesProps>();
+
+    function handleOpenExerciseDetails() {
+        navigation.navigate("exercise");
+    };
 
     return (
         <VStack flex={1}>
@@ -75,6 +85,7 @@ export function Home() {
                         <ExerciseCard
                             name={item.name}
                             image={item.image}
+                            onPress={handleOpenExerciseDetails}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
