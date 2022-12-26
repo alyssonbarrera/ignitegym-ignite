@@ -50,11 +50,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     
             if(data.user && data.token) {
                 await storageUserAndTokenSave(data.user, data.token);
-                await userAndTokenUpdate(data.user, data.token);
+                userAndTokenUpdate(data.user, data.token);
             }
-
         } catch (error) {
             throw error;
+        } finally {
+            setIsLoadingUserStorageData(false);
         }
     };
 
