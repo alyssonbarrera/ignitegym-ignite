@@ -9,10 +9,11 @@ import { ScreenHeader } from '@components/ScreenHeader';
 import { ExerciseDTO } from '@dtos/ExerciseDTO';
 import { AppError } from '@utils/AppError';
 import { api } from '@services/api';
+import { HistoryByDayDTO } from '@dtos/HistoryByDayDTO';
 
 export function History() {
 
-    const [exercises, setExercises] = useState([]);
+    const [exercises, setExercises] = useState<HistoryByDayDTO[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const toast = useToast();
@@ -21,7 +22,7 @@ export function History() {
         try {
             setIsLoading(true);
             const response = await api.get('/history');
-            console.log(response.data)
+            setExercises(response.data)
         } catch (error) {
             const isAppError = error instanceof AppError;
 
@@ -46,10 +47,10 @@ export function History() {
             <ScreenHeader title="Histórico de Exercícios" />
 
             <SectionList
-                sections={exercises}
+                sections={ exercises }
                 keyExtractor={(item: ExerciseDTO) => item.id}
                 renderItem={({ item }) => (
-                    <HistoryCard />
+                    <HistoryCard data={ item } />
                 )}
                 renderSectionHeader={({ section }) => (
                     <Heading color="gray.200" fontSize="md" mt={10} mb={3} fontFamily="heading">
